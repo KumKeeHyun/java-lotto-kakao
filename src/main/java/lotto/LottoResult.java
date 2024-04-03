@@ -51,7 +51,7 @@ public enum LottoResult {
     }
 
     public static Comparator<LottoResult> comparator() {
-        return Comparator.comparing(LottoResult::getMatchCount).thenComparingInt(result -> result.bonus ? 0 : 1);
+        return Comparator.comparing(LottoResult::getMatchCount).thenComparingInt(result -> result.bonus ? 1 : 0);
     }
 
 }
