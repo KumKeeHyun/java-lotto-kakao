@@ -31,7 +31,7 @@ public class LottoGameController {
 
     private static GameResult matchWinningNumber(LottoGame lottoGame) {
         WinningNumber winningNumber = LottoGameInputView.getWinningNumber();
-        return lottoGame.getGameResult(winningNumber);
+        return lottoGame.matchWith(winningNumber);
     }
 
     private static void displayResult(GameResult gameResult) {

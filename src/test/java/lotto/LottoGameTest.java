@@ -24,7 +24,7 @@ public class LottoGameTest {
         ));
         LottoGame game = new LottoGame(budget, fakeGenerator);
         WinningNumber winningNumber = new WinningNumber(List.of(1, 2, 3, 4, 5, 6), 7);
-        GameResult results = game.getGameResult(winningNumber);
+        GameResult results = game.matchWith(winningNumber);
 
         assertThat(results.getResultCount(LottoResult.THREE_MATCH)).isEqualTo(1);
         assertThat(results.getProfitRate()).isEqualTo(2.5);
