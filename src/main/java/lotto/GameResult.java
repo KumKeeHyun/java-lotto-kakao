@@ -14,6 +14,7 @@ public class GameResult {
         this.resultsMap = results.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         this.profitRate = profitRate;
     }
+
     public double getProfitRate() {
         return profitRate;
     }

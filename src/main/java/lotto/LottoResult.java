@@ -32,10 +32,10 @@ public enum LottoResult {
     }
 
     public static LottoResult getResult(int winCount, boolean hasBonus) {
-        return Arrays.stream(LottoResult.values()).
-                filter(lottoResult -> lottoResult.match(winCount, hasBonus)).
-                findFirst().
-                orElse(LottoResult.BLANK_MATCH);
+        return Arrays.stream(LottoResult.values())
+                .filter(lottoResult -> lottoResult.match(winCount, hasBonus))
+                .findFirst()
+                .orElse(LottoResult.BLANK_MATCH);
     }
 
     public int getPrize() {

@@ -7,8 +7,8 @@ import java.util.List;
 public class NumberGenerator {
 
     public List<Integer> generateNumbers(List<Integer> candidateNumbers, int size) {
-        if (size < 0) {
-            throw new IllegalArgumentException("unreachable");
+        if (size <= 0) {
+            throw new IllegalArgumentException("size는 항상 0보다 커야 합니다");
         }
         return shuffleNumbers(candidateNumbers).subList(0, size);
     }

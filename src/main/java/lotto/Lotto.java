@@ -5,19 +5,19 @@ import java.util.List;
 
 public class Lotto {
 
-    private final List<Integer> lottoNums;
-    public Lotto(List<Integer> lottoNums) {
-        this.lottoNums = lottoNums;
+    private final List<Integer> lottoNumbers;
+    public Lotto(List<Integer> lottoNumbers) {
+        this.lottoNumbers = lottoNumbers;
     }
 
     public LottoResult matchNumber(WinningNumber winningNumber) {
-        int winCount = (int) winningNumber.getLottoNumbers().stream().filter(lottoNums::contains).count();
-        boolean hasBonus = lottoNums.contains(winningNumber.getBonusNumber());
+        int winCount = (int) winningNumber.getLottoNumbers().stream().filter(lottoNumbers::contains).count();
+        boolean hasBonus = lottoNumbers.contains(winningNumber.getBonusNumber());
 
         return LottoResult.getResult(winCount, hasBonus);
     }
 
-    public List<Integer> getLottoNums() {
-        return Collections.unmodifiableList(lottoNums);
+    public List<Integer> getLottoNumbers() {
+        return Collections.unmodifiableList(lottoNumbers);
     }
 }

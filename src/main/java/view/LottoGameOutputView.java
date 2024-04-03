@@ -16,8 +16,8 @@ public class LottoGameOutputView {
         System.out.printf(DISPLAY_NUMBER_OF_LOTTOS_MSG_FORMAT, numOfLottos);
     }
 
-    public static void displayLotto(List<Integer> lottoNums) {
-        System.out.println(lottoNums);
+    public static void displayLotto(List<Integer> lottoNumbers) {
+        System.out.println(lottoNumbers);
     }
 
     public static void displayResultHeader() {
