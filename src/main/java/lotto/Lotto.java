@@ -38,11 +38,22 @@ public class Lotto {
         }
     }
 
+    @Deprecated
     public LottoResult matchNumber(WinningNumber winningNumber) {
         int winCount = (int) winningNumber.getLottoNumbers().stream().filter(lottoNumbers::contains).count();
         boolean hasBonus = lottoNumbers.contains(winningNumber.getBonusNumber());
 
         return LottoResult.getResult(winCount, hasBonus);
+    }
+
+    public int match(Lotto anotherlotto) {
+        return (int) lottoNumbers.stream()
+                .filter(anotherlotto::contains)
+                .count();
+    }
+
+    public boolean contains(Integer number) {
+        return getLottoNumbers().contains(number);
     }
 
     public List<Integer> getLottoNumbers() {

@@ -31,9 +31,7 @@ public class LottoGame {
     }
 
     private List<LottoResult> matchResult(WinningNumber winningNumber) {
-        return lottos.stream()
-                .map(lotto -> lotto.matchNumber(winningNumber))
-                .collect(Collectors.toList());
+        return winningNumber.match(lottos);
     }
 
     private double calculateProfitRate(List<LottoResult> results) {
