@@ -30,8 +30,8 @@ public class LottoGameController {
     }
 
     private static GameResult matchWinningNumber(LottoGame lottoGame) {
-        WinningNumber winningNumber = LottoGameInputView.getWinningNumber();
-        return lottoGame.matchWith(winningNumber);
+        WinningLotto winningLotto = LottoGameInputView.getWinningNumber();
+        return lottoGame.matchWith(winningLotto);
     }
 
     private static void displayResult(GameResult gameResult) {

@@ -6,9 +6,13 @@ import java.util.stream.IntStream;
 
 public class LottoGame {
     private static final int LOTTO_PRICE = 1_000;
-    private static final List<Integer> CANDIDATE_NUMBERS = IntStream.range(Lotto.MIN_LOTTO_NUMBER, Lotto.MAX_LOTTO_NUMBER + 1).boxed().collect(Collectors.toList());
+    private static final List<Integer> CANDIDATE_NUMBERS = IntStream
+            .range(LottoNumber.MIN_LOTTO_NUMBER, LottoNumber.MAX_LOTTO_NUMBER + 1)
+            .boxed()
+            .collect(Collectors.toList());
 
     private final List<Lotto> lottos;
+
     public LottoGame(int budget, NumberGenerator numberGenerator) {
         if (budget < LOTTO_PRICE) {
             throw new RuntimeException("적어도 로또 1개를 살 만큼의 돈은 가져오셔야 합니다 ^^7");
@@ -24,14 +28,14 @@ public class LottoGame {
         return lottos;
     }
 
-    public GameResult matchWith(WinningNumber winningNumber) {
-        List<LottoResult> results = matchResult(winningNumber);
+    public GameResult matchWith(WinningLotto winningLotto) {
+        List<LottoResult> results = matchResult(winningLotto);
         double profitRate = calculateProfitRate(results);
         return new GameResult(results, profitRate);
     }
 
-    private List<LottoResult> matchResult(WinningNumber winningNumber) {
-        return winningNumber.match(lottos);
+    private List<LottoResult> matchResult(WinningLotto winningLotto) {
+        return winningLotto.match(lottos);
     }
 
     private double calculateProfitRate(List<LottoResult> results) {

@@ -1,6 +1,6 @@
 package view;
 
-import lotto.WinningNumber;
+import lotto.WinningLotto;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -52,10 +52,10 @@ public class LottoGameInputView {
         return scanner.nextLine();
     }
 
-    public static WinningNumber getWinningNumber() {
+    public static WinningLotto getWinningNumber() {
         List<Integer> winningLottoNumbers = getWinningLottoNumbers();
         int winningBonusNumber = getWinningBonusNumber(winningLottoNumbers);
-        return new WinningNumber(winningLottoNumbers, winningBonusNumber);
+        return new WinningLotto(winningLottoNumbers, winningBonusNumber);
     }
 
     private static List<Integer> getWinningLottoNumbers() {
