@@ -3,8 +3,6 @@ package view;
 import lotto.Lotto;
 import lotto.WinningLotto;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -70,10 +68,10 @@ public class LottoGameInputView {
     }
 
     private static List<Integer> getWinningLottoNumbers() {
-        return retryableInput(LottoGameInputView::inputWinningLottoNumbers, LottoGameInputView::isValidWinningLottoNumbers);
+        return retryableInput(LottoGameInputView::inputWinningLottoNumbers, LottoGameInputView::isValidLottoNumbers);
     }
 
-    private static boolean isValidWinningLottoNumbers(List<Integer> winningLottoNumbers) {
+    private static boolean isValidLottoNumbers(List<Integer> winningLottoNumbers) {
         boolean isSixLength = winningLottoNumbers.size() == 6;
         boolean outBoundedNumber = winningLottoNumbers.stream().anyMatch(number -> number < 1 || number > 45);
         boolean duplicatedNumber = winningLottoNumbers.size() != new HashSet<>(winningLottoNumbers).size();
@@ -155,15 +153,7 @@ public class LottoGameInputView {
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.out.println("[ERROR] 처음부터 다시 입력해주세요.");
-            drainInputStream();
             return inputManualLottoNumbers(numberOfManualBuy);
-        }
-    }
-
-    private static void drainInputStream() {
-        try {
-            System.in.transferTo(OutputStream.nullOutputStream());
-        } catch (IOException ignore) {
         }
     }
 
