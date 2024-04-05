@@ -47,7 +47,7 @@ public class LottoGameTest {
         WinningLotto winningLotto = new WinningLotto(List.of(1, 2, 3, 4, 5, 6), 7);
         GameResult results = game.matchWith(winningLotto);
 
-        assertThat(results.getResultCount(LottoResult.THREE_MATCH)).isEqualTo(1);
+        assertThat(results.getResultCount(LottoResult.FIFTH)).isEqualTo(1);
         assertThat(results.getProfitRate()).isEqualTo(2.5);
     }
 }
