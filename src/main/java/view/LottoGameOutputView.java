@@ -37,7 +37,7 @@ public class LottoGameOutputView {
 
     private static String makeLottoResultName(LottoResult lottoResult) {
         String resultName = String.format("%d개 일치", lottoResult.getMatchCount());
-        if (lottoResult == LottoResult.FIVE_AND_BONUS_MATCH) {
+        if (lottoResult == LottoResult.SECOND) {
             resultName += ", 보너스 볼 일치";
         }
         return resultName;
