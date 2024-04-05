@@ -11,7 +11,7 @@ public class LottoNumberTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 10, 20, 30, 40, 45})
     void createLottoNumberTest(int number) {
-        LottoNumber lottoNumber = new LottoNumber(number);
+        LottoNumber lottoNumber = LottoNumber.of(number);
         assertThat(lottoNumber).isNotNull();
     }
 
@@ -19,7 +19,7 @@ public class LottoNumberTest {
     @ParameterizedTest
     @ValueSource(ints = {-1, 0, 46, 100})
     void createInvalidLottoNumberTest(int number) {
-        assertThatThrownBy(() -> new LottoNumber(number))
+        assertThatThrownBy(() -> LottoNumber.of(number))
                 .isInstanceOf(RuntimeException.class);
     }
 }
