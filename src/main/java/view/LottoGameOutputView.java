@@ -1,6 +1,7 @@
 package view;
 
 import lotto.GameResult;
+import lotto.Lotto;
 import lotto.LottoResult;
 
 import java.util.Arrays;
@@ -14,6 +15,13 @@ public class LottoGameOutputView {
 
     public static void displayNumberOfLottos(int numOfManualLottos, int numOfAutoLottos) {
         System.out.printf(DISPLAY_NUMBER_OF_LOTTOS_MSG_FORMAT, numOfManualLottos, numOfAutoLottos);
+    }
+
+    public static void displayLottos(List<Lotto> lottos) {
+        lottos.stream()
+                .map(Lotto::getLottoNumbers)
+                .forEach(LottoGameOutputView::displayLotto);
+        System.out.println();
     }
 
     public static void displayLotto(List<Integer> lottoNumbers) {
