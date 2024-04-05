@@ -16,14 +16,15 @@ public class LottoGameController {
 
     private static LottoGame setupLottoGame() {
         int budget = LottoGameInputView.getBudget();
-        LottoGame lottoGame = new LottoGame(budget, new NumberGenerator());
+        List<Lotto> manualLottos = LottoGameInputView.getManualLottos();
+        LottoGame lottoGame = new LottoGame(budget, new NumberGenerator(), manualLottos);
         displayPurchasedLottos(lottoGame);
         return lottoGame;
     }
 
     private static void displayPurchasedLottos(LottoGame lottoGame) {
+        LottoGameOutputView.displayNumberOfLottos(lottoGame.getManualLottoSize(), lottoGame.getAutoLottoSize());
         List<Lotto> lottos = lottoGame.getLottos();
-        LottoGameOutputView.displayNumberOfLottos(lottos.size());
         lottos.stream()
                 .map(Lotto::getLottoNumbers)
                 .forEach(LottoGameOutputView::displayLotto);
