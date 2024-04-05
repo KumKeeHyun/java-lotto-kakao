@@ -1,9 +1,9 @@
 package lotto;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class LottoGame {
 
@@ -12,18 +12,32 @@ public class LottoGame {
             .boxed()
             .collect(Collectors.toList());
 
-    private final List<Lotto> lottos;
+    private final List<Lotto> manualLottos;
+    private final List<Lotto> autoLottos;
 
     public LottoGame(int budget, NumberGenerator numberGenerator) {
-        int numToBuy = LottoPrice.canBuy(budget);
-        this.lottos = IntStream
-                .range(0, numToBuy)
+        this(budget, numberGenerator, List.of());
+    }
+
+    public LottoGame(int budget, NumberGenerator numberGenerator, List<Lotto> manualLottos) {
+        int numToAutoBuy = LottoPrice.canBuy(budget, manualLottos);
+        this.autoLottos = IntStream.range(0, numToAutoBuy)
                 .mapToObj(i -> new Lotto(numberGenerator.generateNumbers(CANDIDATE_NUMBERS, Lotto.LOTTO_NUMBERS_LENGTH)))
                 .collect(Collectors.toList());
+        this.manualLottos = manualLottos;
     }
 
     public List<Lotto> getLottos() {
-        return Collections.unmodifiableList(lottos);
+        return Stream.concat(manualLottos.stream(), autoLottos.stream())
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public int getAutoLottoSize() {
+        return autoLottos.size();
+    }
+
+    public int getManualLottoSize() {
+        return manualLottos.size();
     }
 
     public GameResult matchWith(WinningLotto winningLotto) {
@@ -33,7 +47,7 @@ public class LottoGame {
     }
 
     private List<LottoResult> matchResult(WinningLotto winningLotto) {
-        return winningLotto.match(lottos);
+        return winningLotto.match(getLottos());
     }
 
     private double calculateProfitRate(List<LottoResult> results) {
