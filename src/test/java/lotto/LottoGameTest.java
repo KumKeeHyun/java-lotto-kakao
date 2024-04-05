@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class LottoGameTest {
 
@@ -13,6 +14,26 @@ public class LottoGameTest {
         int budget = 5_000;
         LottoGame game = new LottoGame(budget, new NumberGenerator());
         assertThat(game.getLottos().size()).isEqualTo(5);
+    }
+
+    @Test
+    void buyManualLottoTest() {
+        int budget = 5_000;
+        List<Lotto> manualLottos = List.of(new Lotto(List.of(1, 2, 3, 4, 5, 6)), new Lotto(List.of(1, 2, 3, 4, 5, 6)));
+        LottoGame game = new LottoGame(budget, new NumberGenerator(), manualLottos);
+
+        assertThat(game.getManualLottoSize()).isEqualTo(2);
+        assertThat(game.getAutoLottoSize()).isEqualTo(3);
+    }
+
+    @Test
+    void invalidBuyLottoTest() {
+        int budget = 1_000;
+        List<Lotto> manualLottos = List.of(new Lotto(List.of(1, 2, 3, 4, 5, 6)), new Lotto(List.of(1, 2, 3, 4, 5, 6)));
+
+        assertThatThrownBy(() -> new LottoGame(budget, new NumberGenerator(), manualLottos))
+                .isInstanceOf(RuntimeException.class);
+
     }
 
     @Test
