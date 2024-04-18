@@ -1,5 +1,6 @@
 package lotto;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -12,19 +13,20 @@ public class LottoGame {
             .boxed()
             .collect(Collectors.toUnmodifiableList());
 
-    private final List<Lotto> manualLottos;
-    private final List<Lotto> autoLottos;
+    private final int numOfManualLottos;
+    private final int numOfAutoLottos;
+    private final List<Lotto> lottos;
 
     public LottoGame(int budget, NumberGenerator numberGenerator) {
         this(budget, numberGenerator, List.of());
     }
 
     public LottoGame(int budget, NumberGenerator numberGenerator, List<Lotto> manualLottos) {
-        int numToAutoBuy = LottoPrice.canBuy(budget, manualLottos);
-        this.autoLottos = IntStream.range(0, numToAutoBuy)
-                .mapToObj(i -> new Lotto(generateLottoNumbers(numberGenerator)))
-                .collect(Collectors.toList());
-        this.manualLottos = manualLottos;
+        this.numOfManualLottos = manualLottos.size();
+        this.numOfAutoLottos = LottoPrice.canBuy(budget, manualLottos);
+        Stream<Lotto> autoLottos = IntStream.range(0, this.numOfAutoLottos)
+                .mapToObj(i -> new Lotto(generateLottoNumbers(numberGenerator)));
+        this.lottos = Stream.concat(autoLottos, manualLottos.stream()).collect(Collectors.toList());
     }
 
     public static LottoGame allAuto(int budget, NumberGenerator numberGenerator) {
@@ -44,16 +46,15 @@ public class LottoGame {
     }
 
     public List<Lotto> getLottos() {
-        return Stream.concat(manualLottos.stream(), autoLottos.stream())
-                .collect(Collectors.toUnmodifiableList());
+        return Collections.unmodifiableList(lottos);
     }
 
     public int getAutoLottoSize() {
-        return autoLottos.size();
+        return numOfAutoLottos;
     }
 
     public int getManualLottoSize() {
-        return manualLottos.size();
+        return numOfManualLottos;
     }
 
     public GameResult matchWith(WinningLotto winningLotto) {
