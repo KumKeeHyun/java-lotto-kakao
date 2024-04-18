@@ -27,6 +27,18 @@ public class LottoGame {
         this.manualLottos = manualLottos;
     }
 
+    public static LottoGame allAuto(int budget, NumberGenerator numberGenerator) {
+        return new LottoGame(budget, numberGenerator);
+    }
+
+    public static LottoGame autoWithManual(int budget, NumberGenerator numberGenerator, List<List<Integer>> manualLottos) {
+        return new LottoGame(budget, numberGenerator, manualLottos.stream().map(Lotto::new).collect(Collectors.toList()));
+    }
+
+    public static LottoGame autoWithExistLotto(int budget, NumberGenerator numberGenerator, List<Lotto> lottos) {
+        return new LottoGame(budget, numberGenerator, lottos);
+    }
+
     private List<Integer> generateLottoNumbers(NumberGenerator numberGenerator) {
         return numberGenerator.generateNumbers(CANDIDATE_NUMBERS, Lotto.LOTTO_NUMBERS_LENGTH);
     }

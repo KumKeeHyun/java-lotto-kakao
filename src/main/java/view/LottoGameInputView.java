@@ -1,8 +1,5 @@
 package view;
 
-import lotto.Lotto;
-import lotto.WinningLotto;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -67,6 +64,24 @@ public class LottoGameInputView {
         return new WinningLotto(winningLottoNumbers, winningBonusNumber);
     }
 
+    public static class WinningLotto {
+        private final List<Integer> winningLottoNumbers;
+        private final int winningBonusNumber;
+
+        public WinningLotto(List<Integer> winningLottoNumbers, int winningBonusNumber) {
+            this.winningLottoNumbers = winningLottoNumbers;
+            this.winningBonusNumber = winningBonusNumber;
+        }
+
+        public List<Integer> getWinningLottoNumbers() {
+            return winningLottoNumbers;
+        }
+
+        public int getWinningBonusNumber() {
+            return winningBonusNumber;
+        }
+    }
+
     private static List<Integer> getWinningLottoNumbers() {
         return retryableInput(LottoGameInputView::inputWinningLottoNumbers, LottoGameInputView::isValidLottoNumbers);
     }
@@ -111,10 +126,10 @@ public class LottoGameInputView {
         return inputInt(INPUT_WINNING_BONUS_NUMBERS_MSG);
     }
 
-    public static List<Lotto> getManualLottos() {
+    public static List<List<Integer>> getManualLottos() {
         int numberOfManualBuy = getNumberOfManualBuy();
         System.out.println();
-        List<Lotto> manualLottoNumbers = getManualLottoNumbers(numberOfManualBuy);
+        List<List<Integer>> manualLottoNumbers = getManualLottoNumbers(numberOfManualBuy);
         System.out.println();
         return manualLottoNumbers;
     }
@@ -131,25 +146,30 @@ public class LottoGameInputView {
         return inputInt(INPUT_NUMBER_OF_MANUAL_BUY_MSG);
     }
 
-    private static List<Lotto> getManualLottoNumbers(int numberOfManualBuy) {
-        Supplier<List<Lotto>> mixedSupplier =
+    private static List<List<Integer>> getManualLottoNumbers(int numberOfManualBuy) {
+        Supplier<List<List<Integer>>> mixedSupplier =
                 () -> inputManualLottoNumbers(numberOfManualBuy);
-        Function<Integer, Predicate<List<Lotto>>> mixedValidate =
+        Function<Integer, Predicate<List<List<Integer>>>> mixedValidate =
                 numOfManualBuy ->
                         lottos -> isValidManualLottoNumbers(lottos, numOfManualBuy);
         return retryableInput(mixedSupplier, mixedValidate.apply(numberOfManualBuy));
     }
 
-    private static boolean isValidManualLottoNumbers(List<Lotto> manualLottos, int numberOfManualBuy) {
-        return manualLottos.size() == numberOfManualBuy;
+    private static boolean isValidManualLottoNumbers(List<List<Integer>> manualLottos, int numberOfManualBuy) {
+        if (manualLottos.size() != numberOfManualBuy) {
+            return false;
+        }
+        return manualLottos.stream()
+                .filter(Predicate.not(LottoGameInputView::isValidLottoNumbers))
+                .findAny()
+                .isEmpty();
     }
 
-    private static List<Lotto> inputManualLottoNumbers(int numberOfManualBuy) {
+    private static List<List<Integer>> inputManualLottoNumbers(int numberOfManualBuy) {
         System.out.println(INPUT_MANUAL_LOTTO_NUMBERS_MSG);
         try {
             return IntStream.range(0, numberOfManualBuy)
                     .mapToObj(i -> inputIntList(""))
-                    .map(Lotto::new)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             System.out.println("[ERROR] 처음부터 다시 입력해주세요.");

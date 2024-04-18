@@ -1,6 +1,9 @@
 package controller;
 
-import lotto.*;
+import lotto.GameResult;
+import lotto.LottoGame;
+import lotto.NumberGenerator;
+import lotto.WinningLotto;
 import view.LottoGameInputView;
 import view.LottoGameOutputView;
 
@@ -16,8 +19,8 @@ public class LottoGameController {
 
     private static LottoGame setupLottoGame() {
         int budget = LottoGameInputView.getBudget();
-        List<Lotto> manualLottos = LottoGameInputView.getManualLottos();
-        LottoGame lottoGame = new LottoGame(budget, new NumberGenerator(), manualLottos);
+        List<List<Integer>> manualLottos = LottoGameInputView.getManualLottos();
+        LottoGame lottoGame = LottoGame.autoWithManual(budget, new NumberGenerator(), manualLottos);
         displayPurchasedLottos(lottoGame);
         return lottoGame;
     }
@@ -28,7 +31,8 @@ public class LottoGameController {
     }
 
     private static GameResult matchWinningNumber(LottoGame lottoGame) {
-        WinningLotto winningLotto = LottoGameInputView.getWinningNumber();
+        LottoGameInputView.WinningLotto winningLottoInput = LottoGameInputView.getWinningNumber();
+        WinningLotto winningLotto = new WinningLotto(winningLottoInput.getWinningLottoNumbers(), winningLottoInput.getWinningBonusNumber());
         return lottoGame.matchWith(winningLotto);
     }
 
